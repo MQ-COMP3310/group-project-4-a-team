@@ -38,6 +38,7 @@
             },
             "visible": true,
             "shape": "actor",
+            "zIndex": 1,
             "ports": {
               "groups": {
                 "top": {
@@ -121,7 +122,6 @@
               ]
             },
             "id": "37795674-ad02-452f-aca7-fb34fdf20e59",
-            "zIndex": 1,
             "data": {
               "type": "tm.Actor",
               "name": "User ",
@@ -155,6 +155,7 @@
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 2,
             "ports": {
               "groups": {
                 "top": {
@@ -238,7 +239,6 @@
               ]
             },
             "id": "94af8915-0289-4b9e-8112-4ce48566ef16",
-            "zIndex": 2,
             "data": {
               "type": "tm.Store",
               "name": "Store",
@@ -276,6 +276,7 @@
             },
             "visible": true,
             "shape": "process",
+            "zIndex": 3,
             "ports": {
               "groups": {
                 "top": {
@@ -359,7 +360,6 @@
               ]
             },
             "id": "f6f1107f-2a26-4179-809f-329f5304bd33",
-            "zIndex": 3,
             "data": {
               "type": "tm.Process",
               "name": "Welcome\nPage\nHTML",
@@ -399,6 +399,7 @@
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 4,
             "ports": {
               "groups": {
                 "top": {
@@ -482,7 +483,6 @@
               ]
             },
             "id": "6536a3b0-4680-4ef8-ab1c-f6945a5016f7",
-            "zIndex": 4,
             "data": {
               "type": "tm.Store",
               "name": "highscores.html",
@@ -520,6 +520,7 @@
             },
             "visible": true,
             "shape": "process",
+            "zIndex": 6,
             "ports": {
               "groups": {
                 "top": {
@@ -603,7 +604,6 @@
               ]
             },
             "id": "28e3b456-e53a-4a8b-a7b0-53f0528c7950",
-            "zIndex": 6,
             "data": {
               "type": "tm.Process",
               "name": "Index.html",
@@ -640,6 +640,7 @@
             },
             "visible": true,
             "shape": "process",
+            "zIndex": 7,
             "ports": {
               "groups": {
                 "top": {
@@ -723,7 +724,6 @@
               ]
             },
             "id": "e8701646-67cf-4bac-a66c-e201c77cab35",
-            "zIndex": 7,
             "data": {
               "type": "tm.Process",
               "name": "New Game",
@@ -760,6 +760,7 @@
             },
             "visible": true,
             "shape": "process",
+            "zIndex": 8,
             "ports": {
               "groups": {
                 "top": {
@@ -843,7 +844,6 @@
               ]
             },
             "id": "eda24fcb-f294-4557-a6d6-d2a39981564a",
-            "zIndex": 8,
             "data": {
               "type": "tm.Process",
               "name": "Game",
