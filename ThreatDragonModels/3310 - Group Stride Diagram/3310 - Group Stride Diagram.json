@@ -1124,7 +1124,7 @@
             "connector": "smooth",
             "data": {
               "type": "tm.Flow",
-              "name": "View Highscores",
+              "name": "View Highscores - Stored in HTML",
               "description": "",
               "outOfScope": false,
               "isTrustBoundary": false,
@@ -1138,7 +1138,7 @@
               "trustBoundaryIds": []
             },
             "labels": [
-              "View Highscores"
+              "View Highscores - Stored in HTML"
             ],
             "id": "44757028-f12f-4d03-a207-0f0c87979622",
             "source": {
