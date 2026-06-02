@@ -1,5 +1,7 @@
 import os
 import sys
+import re          # Michael Part 3: ADDED FOR SECURITY: Regular Expressions for input validation
+import html        # Michael Part 3: ADDED FOR SECURITY: HTML escaping for XSS prevention
 from importlib import reload
 from flask import Flask, render_template, redirect, request, url_for
 
@@ -9,6 +11,36 @@ reload(sys)
 app = Flask(__name__)
 app.secret_key = 'some_secret'
 data = []
+
+
+# ==========================================
+# Michael Part 3: SECURE FEATURE 1: INPUT VALIDATION ENGINE
+# ==========================================
+
+def is_valid_username(username):
+    """
+    Michael Part 3: SECURITY PRINCIPLE: Input Validation (Allow-listing)
+    Mitigates Path Traversal by ensuring only safe, alphanumeric characters 
+    can be used in the username, which is later used to construct file paths.
+    Enforces a length limit (3 to 15 characters) to prevent buffer/DoS issues.
+    """
+    if not username:
+        return False
+    # Michael Part 3: Regex strictly matches string start to end, 3-15 alphanumeric chars only.
+    if not re.match(r'^[a-zA-Z0-9]{3,15}$', username):
+        return False
+    return True
+
+def sanitize_input(text):
+    """
+    Michael Part 3: SECURITY PRINCIPLE: Data Sanitization (Output Encoding/Escaping)
+    Strips leading/trailing whitespace and escapes HTML characters 
+    to mitigate Cross-Site Scripting (XSS) when inputs are rendered.
+    """
+    if not text:
+        return ""
+    # Michael Part 3: Strip whitespace and safely escape HTML tags
+    return html.escape(text.strip())
 
 
 def write_to_file(filename, data):
@@ -112,11 +144,18 @@ def get_scores():
 def index():
     if request.method == "POST":
         global username
-        username = request.form['username'].lower()
-        if username == "":
-            return render_template("index.html", page_title="Home", username=username)
-        else:
-            return redirect(url_for('user', username=username))
+        
+        # Michael Part 3: SECURE IMPLEMENTATION: Capture, sanitize, and validate input
+        raw_username = request.form['username'].lower()
+        username = sanitize_input(raw_username)
+        
+        # Michael Part 3: Check against our strict allow-list before proceeding
+        if not is_valid_username(username):
+            # Michael Part 3: Return to home page if input is malicious or invalid
+            error_msg = "Security Error: Username must be 3-15 alphanumeric characters only."
+            return render_template("index.html", page_title="Home", username="", error=error_msg)
+
+        return redirect(url_for('user', username=username))
     return render_template("index.html", page_title="Home")
 
 
@@ -150,7 +189,10 @@ def game(username):
     if request.method == "POST":
 
         riddle_index = int(request.form["riddle_index"])
-        user_response = request.form["answer"].title()
+        
+        # Michael Part 3: SECURE IMPLEMENTATION: Sanitize the riddle answer to prevent XSS
+        raw_response = request.form["answer"].title()
+        user_response = sanitize_input(raw_response)
 
         write_to_file("data/user-" + username + "-guesses.txt", user_response + "\n")
 
