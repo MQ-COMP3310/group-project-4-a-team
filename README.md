@@ -32,3 +32,11 @@ You can now browse to the url http://localhost:8000/ to view the website.
 ## Issues
 
 There is a slight problem with beginning a game that doesnt always happen. Once the user inputs a Username to play the game then clicks on the 'Play' button, there is a possibility of getting a server error. To get past this, press the back button on the browser and then click 'Play' again. Keep trying that until it works.
+
+## Security Testing (Part 3 Features)
+As part of the secure feature implementation, automated security tests have been added to verify that malicious inputs are blocked and rate limits are enforced.
+
+To run the security tests, ensure your virtual environment is active and run the following command from the root directory:
+`python test_security.py`
+
+You should see an `OK` output indicating all security assertions have passed.
