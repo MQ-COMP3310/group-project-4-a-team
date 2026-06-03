@@ -193,8 +193,8 @@
                 "text": "game()"
               },
               "body": {
-                "stroke": "#333333",
-                "strokeWidth": 1.5,
+                "stroke": "red",
+                "strokeWidth": 2.5,
                 "strokeDasharray": null
               }
             },
@@ -291,12 +291,34 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
               "handlesCardPayment": false,
               "handlesGoodsOrServices": false,
               "isWebApplication": false,
               "privilegeLevel": "",
-              "threats": []
+              "threats": [
+                {
+                  "id": "a7e2a965-4509-4388-9528-aa92b7c9aa82",
+                  "title": "Impersonation Attack",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "description": "Provide a description for this threat",
+                  "mitigation": "Provide remediation for this threat or a reason if status is N/A",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 2,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 1,
+                "elevationOfPrivilege": 0
+              }
             },
             "children": []
           },
@@ -2409,8 +2431,8 @@
             },
             "vertices": [
               {
-                "x": 740,
-                "y": 1130
+                "x": 710,
+                "y": 1140
               }
             ]
           },
@@ -2522,8 +2544,8 @@
                 "text": "user()"
               },
               "body": {
-                "stroke": "#333333",
-                "strokeWidth": 1.5,
+                "stroke": "red",
+                "strokeWidth": 2.5,
                 "strokeDasharray": null
               }
             },
@@ -2620,12 +2642,34 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
               "handlesCardPayment": false,
               "handlesGoodsOrServices": false,
               "isWebApplication": false,
               "privilegeLevel": "",
-              "threats": []
+              "threats": [
+                {
+                  "id": "63cc9909-8cc1-45fe-af7f-336b7a47043e",
+                  "title": "Impersonation Attack",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "description": "Provide a description for this threat",
+                  "mitigation": "Provide remediation for this threat or a reason if status is N/A",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 1,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 1,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
             }
           },
           {
@@ -2745,7 +2789,15 @@
               "handlesGoodsOrServices": false,
               "isWebApplication": false,
               "privilegeLevel": "",
-              "threats": []
+              "threats": [],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
             }
           },
           {
@@ -3250,8 +3302,8 @@
                 "text": "congrats()"
               },
               "body": {
-                "stroke": "#333333",
-                "strokeWidth": 1.5,
+                "stroke": "red",
+                "strokeWidth": 2.5,
                 "strokeDasharray": null
               }
             },
@@ -3348,12 +3400,41 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
               "handlesCardPayment": false,
               "handlesGoodsOrServices": false,
               "isWebApplication": false,
               "privilegeLevel": "",
-              "threats": []
+              "threats": [
+                {
+                  "id": "aaf7dad5-5662-4b15-a219-2182f23a143d",
+                  "title": "Impersonation Attack",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Provide a description for this threat",
+                  "mitigation": "Provide remediation for this threat or a reason if status is N/A",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 5,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 1,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            },
+            "tools": {
+              "items": [
+                "boundary",
+                "button-remove"
+              ],
+              "name": null
             }
           },
           {
@@ -3598,8 +3679,8 @@
           },
           {
             "position": {
-              "x": 985,
-              "y": 1000
+              "x": 966,
+              "y": 975
             },
             "size": {
               "width": 90,
@@ -4082,8 +4163,8 @@
           },
           {
             "position": {
-              "x": 604,
-              "y": 775
+              "x": 574,
+              "y": 745
             },
             "size": {
               "width": 120,
@@ -4104,6 +4185,7 @@
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 25,
             "ports": {
               "groups": {
                 "top": {
@@ -4187,7 +4269,6 @@
               ]
             },
             "id": "7a3119b0-d33a-42ba-adea-3f00647a5531",
-            "zIndex": 25,
             "data": {
               "type": "tm.Store",
               "name": "user + score.txt",
@@ -4228,6 +4309,7 @@
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 26,
             "ports": {
               "groups": {
                 "top": {
@@ -4311,7 +4393,6 @@
               ]
             },
             "id": "a3a90b83-1d79-4316-8919-26c9bf30ad5e",
-            "zIndex": 26,
             "data": {
               "type": "tm.Store",
               "name": "user + guesses.txt",
@@ -4352,6 +4433,7 @@
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 27,
             "ports": {
               "groups": {
                 "top": {
@@ -4435,7 +4517,6 @@
               ]
             },
             "id": "cc7f610a-8d6c-4974-938c-e618b3af2419",
-            "zIndex": 27,
             "data": {
               "type": "tm.Store",
               "name": "gameover.html",
@@ -4476,6 +4557,7 @@
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 28,
             "ports": {
               "groups": {
                 "top": {
@@ -4559,7 +4641,6 @@
               ]
             },
             "id": "7feea79d-39cd-4e30-bba2-1968fb717dc3",
-            "zIndex": 28,
             "data": {
               "type": "tm.Store",
               "name": "welcome.html",
@@ -4590,16 +4671,19 @@
                 "text": "game.html"
               },
               "topLine": {
-                "strokeWidth": 1.5,
+                "stroke": "red",
+                "strokeWidth": 2.5,
                 "strokeDasharray": null
               },
               "bottomLine": {
-                "strokeWidth": 1.5,
+                "stroke": "red",
+                "strokeWidth": 2.5,
                 "strokeDasharray": null
               }
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 29,
             "ports": {
               "groups": {
                 "top": {
@@ -4683,7 +4767,6 @@
               ]
             },
             "id": "6670c2a9-3b86-44a5-80f5-8889ee3c1b83",
-            "zIndex": 29,
             "data": {
               "type": "tm.Store",
               "name": "game.html",
@@ -4691,13 +4774,33 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
               "isALog": false,
               "isEncrypted": false,
               "isSigned": false,
               "storesCredentials": false,
               "storesInventory": false,
-              "threats": []
+              "threats": [
+                {
+                  "id": "c48419dc-b0cc-48fe-ba0a-ffa9586cfcfd",
+                  "title": "Impersonation Attack",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Provide a description for this threat",
+                  "mitigation": "Provide remediation for this threat or a reason if status is N/A",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 4,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0
+              }
             }
           },
           {
@@ -4724,6 +4827,7 @@
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 30,
             "ports": {
               "groups": {
                 "top": {
@@ -4807,7 +4911,6 @@
               ]
             },
             "id": "cabe12c7-a4cd-46a0-a4a9-693734d184c3",
-            "zIndex": 30,
             "data": {
               "type": "tm.Store",
               "name": "congrats.html",
@@ -4845,6 +4948,7 @@
             },
             "visible": true,
             "shape": "process",
+            "zIndex": 31,
             "ports": {
               "groups": {
                 "top": {
@@ -4928,7 +5032,6 @@
               ]
             },
             "id": "c8f05d8d-a222-4322-b7fa-ec89ced49431",
-            "zIndex": 31,
             "data": {
               "type": "tm.Process",
               "name": "add_to_score()",
@@ -4949,6 +5052,6 @@
     ],
     "diagramTop": 2,
     "reviewer": "",
-    "threatTop": 0
+    "threatTop": 5
   }
 }
