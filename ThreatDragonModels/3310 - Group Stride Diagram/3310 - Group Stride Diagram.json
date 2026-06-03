@@ -1246,7 +1246,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "2b1e26e1-83bb-4d4f-b513-eef51796b3ed"
+              ]
             },
             "labels": [
               "View Riddle Level"
@@ -1298,7 +1300,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "2b1e26e1-83bb-4d4f-b513-eef51796b3ed"
+              ]
             },
             "labels": [
               "Load Riddle"
@@ -1350,7 +1354,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "2b1e26e1-83bb-4d4f-b513-eef51796b3ed"
+              ]
             },
             "labels": [
               "Enter Answer"
@@ -1402,7 +1408,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "2b1e26e1-83bb-4d4f-b513-eef51796b3ed"
+              ]
             },
             "labels": [
               "Answer Matches"
@@ -1454,7 +1462,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "2b1e26e1-83bb-4d4f-b513-eef51796b3ed"
+              ]
             },
             "labels": [
               "Incorrect Answer"
@@ -2251,7 +2261,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "2b1e26e1-83bb-4d4f-b513-eef51796b3ed"
+              ]
             },
             "labels": [
               "View Answers"
@@ -2303,7 +2315,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "2b1e26e1-83bb-4d4f-b513-eef51796b3ed"
+              ]
             },
             "labels": [
               "Send Answer"
@@ -5045,6 +5059,73 @@
               "isWebApplication": false,
               "privilegeLevel": "",
               "threats": []
+            }
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 32,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "Trust Boundary",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false,
+              "crossingFlows": [],
+              "containedElements": []
+            },
+            "labels": [
+              "Trust Boundary"
+            ],
+            "id": "e97f1f24-e5bc-4bbc-a1de-a17505a43931",
+            "source": {
+              "x": 1410,
+              "y": -100
+            },
+            "target": {
+              "x": 1490,
+              "y": 360
+            }
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 33,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "Trust Boundary",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false,
+              "crossingFlows": [
+                "b5ee7919-03f1-408e-94b1-c285e8cf5308",
+                "58401afa-22ea-4e03-9539-50dc47acb789",
+                "8d58c294-cc72-4ff4-900c-e0d9f8c11208",
+                "6e19f816-b395-451b-ae30-d8fc5f5c6823",
+                "eb5ba8a2-7ec5-4d3a-bf83-f17443163534",
+                "36b5fe5f-5f38-427a-8601-bb654a783781",
+                "7fc08da3-245a-49a9-be63-680a46e2dff9"
+              ],
+              "containedElements": [
+                "7dfce0c7-1614-4f63-ac35-025fff2a6f71",
+                "5965ace4-2bd2-4973-b986-c620eaaddb96"
+              ]
+            },
+            "labels": [
+              "Trust Boundary"
+            ],
+            "id": "2b1e26e1-83bb-4d4f-b513-eef51796b3ed",
+            "source": {
+              "x": 1760,
+              "y": 480
+            },
+            "target": {
+              "x": 2180,
+              "y": 920
             }
           }
         ]
