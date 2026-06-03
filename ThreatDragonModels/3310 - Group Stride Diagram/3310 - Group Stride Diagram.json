@@ -263,7 +263,7 @@
           },
           {
             "position": {
-              "x": 1051,
+              "x": 1061,
               "y": 381
             },
             "size": {
@@ -2233,6 +2233,110 @@
             ]
           },
           {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Add Score (If Correct)",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [],
+              "trustBoundaryIds": []
+            },
+            "labels": [
+              "Add Score (If Correct)"
+            ],
+            "id": "fda86d5d-7d81-4f67-8af4-aeba778ddef4",
+            "source": {
+              "cell": "5965ace4-2bd2-4973-b986-c620eaaddb96",
+              "port": "1002becb-e422-4710-9d0f-d2d0ebebb274"
+            },
+            "target": {
+              "cell": "7a3119b0-d33a-42ba-adea-3f00647a5531",
+              "port": "7d59bc78-add0-44f7-8522-f4822d998ade"
+            },
+            "vertices": [
+              {
+                "x": 980,
+                "y": 1200
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Add Incorrect Guess",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [],
+              "trustBoundaryIds": []
+            },
+            "labels": [
+              "Add Incorrect Guess"
+            ],
+            "id": "fb991085-285b-4872-993d-f0ff8f0414e8",
+            "source": {
+              "cell": "bc4832f7-c781-4dfa-9915-7cc5927037ed",
+              "port": "50f7ad0b-a93b-41c9-a2bb-c9116da7d486"
+            },
+            "target": {
+              "cell": "a3a90b83-1d79-4316-8919-26c9bf30ad5e",
+              "port": "0bdbaa6f-87d6-46ff-8a9f-c5772381ea63"
+            },
+            "vertices": [
+              {
+                "x": 1270,
+                "y": 770
+              }
+            ]
+          },
+          {
             "position": {
               "x": 614,
               "y": 386
@@ -3083,7 +3187,7 @@
           {
             "position": {
               "x": 1201,
-              "y": 850
+              "y": 865
             },
             "size": {
               "width": 90,
@@ -3442,8 +3546,8 @@
           },
           {
             "position": {
-              "x": 1101,
-              "y": 670
+              "x": 1075,
+              "y": 600
             },
             "size": {
               "width": 110,
@@ -3926,8 +4030,8 @@
           },
           {
             "position": {
-              "x": 670,
-              "y": 775
+              "x": 680,
+              "y": 790
             },
             "size": {
               "width": 120,
