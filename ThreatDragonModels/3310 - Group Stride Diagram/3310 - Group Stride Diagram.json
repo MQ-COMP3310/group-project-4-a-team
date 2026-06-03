@@ -57,8 +57,8 @@
           },
           {
             "position": {
-              "x": 815,
-              "y": 170
+              "x": 1645,
+              "y": 160
             },
             "size": {
               "width": 120,
@@ -181,8 +181,8 @@
           },
           {
             "position": {
-              "x": 1076,
-              "y": 391
+              "x": 1906,
+              "y": 381
             },
             "size": {
               "width": 80,
@@ -573,58 +573,6 @@
             "labels": [
               ""
             ],
-            "id": "a18fbc8c-1698-4eed-9d78-b8a84913ae5f",
-            "source": {
-              "cell": "23d4554f-b5f9-4634-9edd-328832eeb246",
-              "port": "0908971c-a240-4365-9441-61837256539b"
-            },
-            "target": {
-              "cell": "c92ca7b4-3d60-49ff-8ae8-7faf0dac0976",
-              "port": "25d4b335-e050-41b8-818e-401a628d5669"
-            },
-            "vertices": [
-              {
-                "x": 690,
-                "y": 260
-              }
-            ]
-          },
-          {
-            "shape": "flow",
-            "attrs": {
-              "line": {
-                "stroke": "#333333",
-                "targetMarker": {
-                  "name": "block"
-                },
-                "sourceMarker": {
-                  "name": ""
-                },
-                "strokeDasharray": null
-              }
-            },
-            "width": 200,
-            "height": 100,
-            "zIndex": 10,
-            "connector": "smooth",
-            "data": {
-              "type": "tm.Flow",
-              "name": "",
-              "description": "",
-              "outOfScope": false,
-              "isTrustBoundary": false,
-              "reasonOutOfScope": "",
-              "hasOpenThreats": false,
-              "isBidirectional": false,
-              "isEncrypted": false,
-              "isPublicNetwork": false,
-              "protocol": "",
-              "threats": [],
-              "trustBoundaryIds": []
-            },
-            "labels": [
-              ""
-            ],
             "id": "f191ce44-a6db-4495-bfc6-c6eda61fced0",
             "source": {
               "cell": "cfda0796-be31-4bc1-a089-4f0f42756467",
@@ -636,57 +584,10 @@
             },
             "vertices": [
               {
-                "x": 1060,
-                "y": 260
+                "x": 1890,
+                "y": 250
               }
             ]
-          },
-          {
-            "shape": "flow",
-            "attrs": {
-              "line": {
-                "stroke": "#333333",
-                "targetMarker": {
-                  "name": "block"
-                },
-                "sourceMarker": {
-                  "name": ""
-                },
-                "strokeDasharray": null
-              }
-            },
-            "width": 200,
-            "height": 100,
-            "zIndex": 10,
-            "connector": "smooth",
-            "data": {
-              "type": "tm.Flow",
-              "name": "Enter Name",
-              "description": "",
-              "outOfScope": false,
-              "isTrustBoundary": false,
-              "reasonOutOfScope": "",
-              "hasOpenThreats": false,
-              "isBidirectional": false,
-              "isEncrypted": false,
-              "isPublicNetwork": false,
-              "protocol": "",
-              "threats": [],
-              "trustBoundaryIds": []
-            },
-            "labels": [
-              "Enter Name"
-            ],
-            "id": "af7bab19-42b1-4c73-9e44-60425935c4e7",
-            "source": {
-              "cell": "23d4554f-b5f9-4634-9edd-328832eeb246",
-              "port": "3d1898b4-6b3d-4362-9ff9-c22fd823aea8"
-            },
-            "target": {
-              "cell": "f5407844-6264-4a1a-ade8-e69356599144",
-              "port": "012fffe0-5288-4c8b-9b55-28a1df1a3d14"
-            },
-            "vertices": []
           },
           {
             "shape": "flow",
@@ -735,8 +636,8 @@
             },
             "vertices": [
               {
-                "x": 1040,
-                "y": -40
+                "x": 1870,
+                "y": -50
               }
             ]
           },
@@ -787,8 +688,8 @@
             },
             "vertices": [
               {
-                "x": 1230,
-                "y": 20
+                "x": 2060,
+                "y": 10
               }
             ]
           },
@@ -839,8 +740,8 @@
             },
             "vertices": [
               {
-                "x": 1310,
-                "y": -40
+                "x": 2140,
+                "y": -50
               }
             ]
           },
@@ -891,8 +792,8 @@
             },
             "vertices": [
               {
-                "x": 1220,
-                "y": 310
+                "x": 2050,
+                "y": 300
               }
             ]
           },
@@ -943,8 +844,8 @@
             },
             "vertices": [
               {
-                "x": 1490,
-                "y": 30
+                "x": 2320,
+                "y": 20
               }
             ]
           },
@@ -995,8 +896,8 @@
             },
             "vertices": [
               {
-                "x": 1470,
-                "y": -40
+                "x": 2300,
+                "y": -50
               }
             ]
           },
@@ -1188,8 +1089,8 @@
             },
             "vertices": [
               {
-                "x": 1550,
-                "y": 510
+                "x": 2380,
+                "y": 500
               }
             ]
           },
@@ -1240,8 +1141,8 @@
             },
             "vertices": [
               {
-                "x": 1800,
-                "y": 560
+                "x": 2630,
+                "y": 550
               }
             ]
           },
@@ -1292,8 +1193,8 @@
             },
             "vertices": [
               {
-                "x": 1810,
-                "y": 510
+                "x": 2640,
+                "y": 500
               }
             ]
           },
@@ -1344,8 +1245,8 @@
             },
             "vertices": [
               {
-                "x": 1820,
-                "y": 690
+                "x": 2650,
+                "y": 680
               }
             ]
           },
@@ -1396,8 +1297,8 @@
             },
             "vertices": [
               {
-                "x": 1850,
-                "y": 640
+                "x": 2680,
+                "y": 630
               }
             ]
           },
@@ -1448,8 +1349,8 @@
             },
             "vertices": [
               {
-                "x": 1840,
-                "y": 810
+                "x": 2670,
+                "y": 800
               }
             ]
           },
@@ -1594,8 +1495,8 @@
             },
             "vertices": [
               {
-                "x": 900,
-                "y": 990
+                "x": 1730,
+                "y": 980
               }
             ]
           },
@@ -1646,8 +1547,8 @@
             },
             "vertices": [
               {
-                "x": 930,
-                "y": 800
+                "x": 1760,
+                "y": 790
               }
             ]
           },
@@ -1745,8 +1646,8 @@
             },
             "vertices": [
               {
-                "x": 800,
-                "y": 580
+                "x": 1630,
+                "y": 570
               }
             ]
           },
@@ -1797,8 +1698,8 @@
             },
             "vertices": [
               {
-                "x": 1280,
-                "y": 760
+                "x": 2110,
+                "y": 750
               }
             ]
           },
@@ -2037,8 +1938,8 @@
             },
             "vertices": [
               {
-                "x": 1230,
-                "y": 570
+                "x": 2060,
+                "y": 560
               }
             ]
           },
@@ -2089,8 +1990,8 @@
             },
             "vertices": [
               {
-                "x": 1300,
-                "y": 530
+                "x": 2130,
+                "y": 520
               }
             ]
           },
@@ -2141,8 +2042,8 @@
             },
             "vertices": [
               {
-                "x": 1490,
-                "y": 260
+                "x": 2320,
+                "y": 250
               }
             ]
           },
@@ -2193,8 +2094,8 @@
             },
             "vertices": [
               {
-                "x": 1490,
-                "y": 300
+                "x": 2320,
+                "y": 290
               }
             ]
           },
@@ -2245,8 +2146,8 @@
             },
             "vertices": [
               {
-                "x": 2080,
-                "y": 810
+                "x": 2910,
+                "y": 800
               }
             ]
           },
@@ -2297,8 +2198,8 @@
             },
             "vertices": [
               {
-                "x": 2090,
-                "y": 760
+                "x": 2920,
+                "y": 750
               }
             ]
           },
@@ -2349,16 +2250,16 @@
             },
             "vertices": [
               {
-                "x": 1900,
-                "y": 426
+                "x": 3560,
+                "y": 406
               },
               {
-                "x": 2340,
-                "y": 550
+                "x": 4000,
+                "y": 530
               },
               {
-                "x": 2250,
-                "y": 1070
+                "x": 3910,
+                "y": 1050
               }
             ]
           },
@@ -2409,8 +2310,8 @@
             },
             "vertices": [
               {
-                "x": 740,
-                "y": 1130
+                "x": 1570,
+                "y": 1120
               }
             ]
           },
@@ -2510,8 +2411,8 @@
           },
           {
             "position": {
-              "x": 584,
-              "y": 396
+              "x": 1414,
+              "y": 386
             },
             "size": {
               "width": 100,
@@ -2630,8 +2531,8 @@
           },
           {
             "position": {
-              "x": 1664,
-              "y": 510
+              "x": 2494,
+              "y": 500
             },
             "size": {
               "width": 60,
@@ -2750,8 +2651,8 @@
           },
           {
             "position": {
-              "x": 1890,
-              "y": 510
+              "x": 2720,
+              "y": 500
             },
             "size": {
               "width": 120,
@@ -2874,8 +2775,8 @@
           },
           {
             "position": {
-              "x": 1156,
-              "y": -110
+              "x": 1986,
+              "y": -120
             },
             "size": {
               "width": 90,
@@ -2994,8 +2895,8 @@
           },
           {
             "position": {
-              "x": 1304,
-              "y": -10
+              "x": 2134,
+              "y": -20
             },
             "size": {
               "width": 90,
@@ -3114,8 +3015,8 @@
           },
           {
             "position": {
-              "x": 1594,
-              "y": -70
+              "x": 2424,
+              "y": -80
             },
             "size": {
               "width": 120,
@@ -3238,8 +3139,8 @@
           },
           {
             "position": {
-              "x": 1314,
-              "y": 240
+              "x": 2144,
+              "y": 230
             },
             "size": {
               "width": 70,
@@ -3358,8 +3259,8 @@
           },
           {
             "position": {
-              "x": 1156,
-              "y": 865
+              "x": 1986,
+              "y": 855
             },
             "size": {
               "width": 90,
@@ -3478,8 +3379,8 @@
           },
           {
             "position": {
-              "x": 885,
-              "y": 850
+              "x": 1715,
+              "y": 840
             },
             "size": {
               "width": 140,
@@ -3598,8 +3499,8 @@
           },
           {
             "position": {
-              "x": 985,
-              "y": 1000
+              "x": 1815,
+              "y": 990
             },
             "size": {
               "width": 90,
@@ -3718,8 +3619,8 @@
           },
           {
             "position": {
-              "x": 1890,
-              "y": 730
+              "x": 2720,
+              "y": 720
             },
             "size": {
               "width": 120,
@@ -3838,8 +3739,8 @@
           },
           {
             "position": {
-              "x": 2160,
-              "y": 755
+              "x": 2990,
+              "y": 745
             },
             "size": {
               "width": 120,
@@ -3962,8 +3863,8 @@
           },
           {
             "position": {
-              "x": 1644,
-              "y": 835
+              "x": 2474,
+              "y": 825
             },
             "size": {
               "width": 140,
@@ -4082,8 +3983,8 @@
           },
           {
             "position": {
-              "x": 604,
-              "y": 775
+              "x": 1434,
+              "y": 765
             },
             "size": {
               "width": 120,
@@ -4104,6 +4005,7 @@
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 25,
             "ports": {
               "groups": {
                 "top": {
@@ -4187,7 +4089,6 @@
               ]
             },
             "id": "7a3119b0-d33a-42ba-adea-3f00647a5531",
-            "zIndex": 25,
             "data": {
               "type": "tm.Store",
               "name": "user + score.txt",
@@ -4206,8 +4107,8 @@
           },
           {
             "position": {
-              "x": 830,
-              "y": 670
+              "x": 1660,
+              "y": 660
             },
             "size": {
               "width": 120,
@@ -4228,6 +4129,7 @@
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 26,
             "ports": {
               "groups": {
                 "top": {
@@ -4311,7 +4213,6 @@
               ]
             },
             "id": "a3a90b83-1d79-4316-8919-26c9bf30ad5e",
-            "zIndex": 26,
             "data": {
               "type": "tm.Store",
               "name": "user + guesses.txt",
@@ -4330,8 +4231,8 @@
           },
           {
             "position": {
-              "x": 1056,
-              "y": 600
+              "x": 1886,
+              "y": 590
             },
             "size": {
               "width": 120,
@@ -4352,6 +4253,7 @@
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 27,
             "ports": {
               "groups": {
                 "top": {
@@ -4435,7 +4337,6 @@
               ]
             },
             "id": "cc7f610a-8d6c-4974-938c-e618b3af2419",
-            "zIndex": 27,
             "data": {
               "type": "tm.Store",
               "name": "gameover.html",
@@ -4454,8 +4355,8 @@
           },
           {
             "position": {
-              "x": 815,
-              "y": 406
+              "x": 1645,
+              "y": 396
             },
             "size": {
               "width": 120,
@@ -4476,6 +4377,7 @@
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 28,
             "ports": {
               "groups": {
                 "top": {
@@ -4559,7 +4461,6 @@
               ]
             },
             "id": "7feea79d-39cd-4e30-bba2-1968fb717dc3",
-            "zIndex": 28,
             "data": {
               "type": "tm.Store",
               "name": "welcome.html",
@@ -4578,8 +4479,8 @@
           },
           {
             "position": {
-              "x": 1371,
-              "y": 605
+              "x": 2201,
+              "y": 595
             },
             "size": {
               "width": 80,
@@ -4600,6 +4501,7 @@
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 29,
             "ports": {
               "groups": {
                 "top": {
@@ -4683,7 +4585,6 @@
               ]
             },
             "id": "6670c2a9-3b86-44a5-80f5-8889ee3c1b83",
-            "zIndex": 29,
             "data": {
               "type": "tm.Store",
               "name": "game.html",
@@ -4702,8 +4603,8 @@
           },
           {
             "position": {
-              "x": 1594,
-              "y": 250
+              "x": 2424,
+              "y": 240
             },
             "size": {
               "width": 120,
@@ -4724,6 +4625,7 @@
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 30,
             "ports": {
               "groups": {
                 "top": {
@@ -4807,7 +4709,6 @@
               ]
             },
             "id": "cabe12c7-a4cd-46a0-a4a9-693734d184c3",
-            "zIndex": 30,
             "data": {
               "type": "tm.Store",
               "name": "congrats.html",
@@ -4826,8 +4727,8 @@
           },
           {
             "position": {
-              "x": 1051,
-              "y": 1140
+              "x": 1881,
+              "y": 1130
             },
             "size": {
               "width": 110,
@@ -4845,6 +4746,7 @@
             },
             "visible": true,
             "shape": "process",
+            "zIndex": 31,
             "ports": {
               "groups": {
                 "top": {
@@ -4928,7 +4830,6 @@
               ]
             },
             "id": "c8f05d8d-a222-4322-b7fa-ec89ced49431",
-            "zIndex": 31,
             "data": {
               "type": "tm.Process",
               "name": "add_to_score()",
