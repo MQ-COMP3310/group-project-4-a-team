@@ -84,6 +84,63 @@
             }
           },
           {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": -1,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "User Authentication boundary",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false,
+              "crossingFlows": [
+                "f191ce44-a6db-4495-bfc6-c6eda61fced0",
+                "a07e1c11-0bed-420c-8082-c19598b5de25",
+                "dba153e6-1a6e-447e-ac09-c88d3132969d",
+                "f43482f1-d42f-4888-b12d-da3e0591a1e3",
+                "ac1eec78-4070-4311-a283-847148eb2703",
+                "a30a0a74-1a9e-445c-b769-c9de573b47e2",
+                "baa2b925-3282-4226-9c5a-5fd6ba961157",
+                "fa24a910-4bcc-4153-86ba-5a87fddc1bc4",
+                "00f3f50a-ed93-440c-9fd4-eaf5735df1a0",
+                "7598bcfd-b30f-4bec-b176-4233d3a756b6",
+                "4efe8def-1f19-488c-bfcb-f1d5384f1415",
+                "564fd125-f9a4-44a5-ba68-ad6477e02817"
+              ],
+              "containedElements": [
+                "cfda0796-be31-4bc1-a089-4f0f42756467",
+                "f2a82b77-11b3-41ec-be3a-608043e6ee6d",
+                "c4979f08-de15-44c6-8fdd-f2a2b08a7ba8",
+                "0ca8bf71-12e6-488e-bf19-e08b76d87662",
+                "eee0e970-053e-4301-9185-a550a3c054b9",
+                "b052c601-d78d-471c-9fc6-e6e601330eda",
+                "cc7f610a-8d6c-4974-938c-e618b3af2419",
+                "6670c2a9-3b86-44a5-80f5-8889ee3c1b83",
+                "c8f05d8d-a222-4322-b7fa-ec89ced49431"
+              ]
+            },
+            "labels": [
+              "User Authentication boundary"
+            ],
+            "id": "df8ce194-dd32-4da4-882b-98bafb0dc486",
+            "source": {
+              "x": 1786,
+              "y": -271
+            },
+            "target": {
+              "x": 2360,
+              "y": 1590
+            },
+            "vertices": [
+              {
+                "x": 2080,
+                "y": 650
+              }
+            ]
+          },
+          {
             "position": {
               "x": 1645,
               "y": 160
@@ -618,7 +675,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "df8ce194-dd32-4da4-882b-98bafb0dc486"
+              ]
             },
             "labels": [
               ""
@@ -670,7 +729,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "df8ce194-dd32-4da4-882b-98bafb0dc486"
+              ]
             },
             "labels": [
               "Return Scores"
@@ -878,7 +939,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "df8ce194-dd32-4da4-882b-98bafb0dc486"
+              ]
             },
             "labels": [
               "Open txt file"
@@ -930,7 +993,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "df8ce194-dd32-4da4-882b-98bafb0dc486"
+              ]
             },
             "labels": [
               "Add Scores"
@@ -1076,7 +1141,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "df8ce194-dd32-4da4-882b-98bafb0dc486"
+              ]
             },
             "labels": [
               "Clear Guesses"
@@ -1123,7 +1190,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "df8ce194-dd32-4da4-882b-98bafb0dc486"
+              ]
             },
             "labels": [
               "Load Riddle + 1"
@@ -1482,7 +1551,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "df8ce194-dd32-4da4-882b-98bafb0dc486"
+              ]
             },
             "labels": [
               "User Failed\nNo More Attempts"
@@ -1529,7 +1600,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "df8ce194-dd32-4da4-882b-98bafb0dc486"
+              ]
             },
             "labels": [
               "Clear Score"
@@ -1831,7 +1904,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "df8ce194-dd32-4da4-882b-98bafb0dc486"
+              ]
             },
             "labels": [
               "Start Playing"
@@ -2076,7 +2151,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "df8ce194-dd32-4da4-882b-98bafb0dc486"
+              ]
             },
             "labels": [
               "Request HTML"
@@ -2128,7 +2205,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "df8ce194-dd32-4da4-882b-98bafb0dc486"
+              ]
             },
             "labels": [
               "Send HTML"
@@ -2344,7 +2423,9 @@
               "isPublicNetwork": false,
               "protocol": "",
               "threats": [],
-              "trustBoundaryIds": []
+              "trustBoundaryIds": [
+                "df8ce194-dd32-4da4-882b-98bafb0dc486"
+              ]
             },
             "labels": [
               "Send Updated Score"
