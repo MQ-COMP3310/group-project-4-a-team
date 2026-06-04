@@ -3,10 +3,21 @@ import sys
 import re          # Michael Part 3: ADDED FOR SECURITY: Regular Expressions for input validation
 import html        # Michael Part 3: ADDED FOR SECURITY: HTML escaping for XSS prevention
 from importlib import reload
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, session
+import time
 
 # Needed for encoding to utf8
 reload(sys)
+
+# Jake - Part 3, Idle Timeout
+# Time in Seconds (default = 600):
+IDLE_TIMEOUT = 600
+
+# Jake - Part 3, Rate Limiting
+MAX_REQUESTS = 10
+REQUEST_WINDOW = 60
+window_start = time.time()
+request_count = 0
 
 app = Flask(__name__)
 app.secret_key = 'some_secret'
@@ -42,6 +53,45 @@ def sanitize_input(text):
     # Michael Part 3: Strip whitespace and safely escape HTML tags
     return html.escape(text.strip())
 
+# Jake - Part 3, Idle Timeout
+# Before any request that isn't on the homepage, highscores or timeout page.
+@app.before_request
+def check_idle():
+    if request.endpoint == 'index' or request.endpoint == 'highscores' or request.endpoint == 'timeout':
+        return
+
+    name = (request.view_args or {}).get('username')
+    if not name:
+        return
+    
+    last_activity_key = "last_activity_" + name
+    last_activity = session.get(last_activity_key)
+
+    if last_activity:
+        time_since_activity = int(time.time()) - last_activity
+        if time_since_activity > IDLE_TIMEOUT:
+            cleanup(name)
+            session.clear()
+            return redirect(url_for('timeout'))
+        
+    session[last_activity_key] = time.time()
+
+# Jake - Part 3, Rate-Limiting helper
+def is_overwhelmed():
+    global request_count, window_start
+
+    curr_time = time.time()
+    if curr_time - window_start > REQUEST_WINDOW:
+        request_count = 0
+        window_start = curr_time
+    
+    request_count+=1
+
+    if request_count >= MAX_REQUESTS:
+        return True
+    
+    return False
+    
 
 def write_to_file(filename, data):
     with open(filename, "a+") as file:
@@ -77,12 +127,19 @@ def clear_score(username):
     with open("data/user-" + username + "-score.txt", "w"):
         return
 
+# Jake - Part 3, File Deletion
+def cleanup(username):
+    if os.path.exists("data/user-" + username + "-guesses.txt"):
+        os.remove("data/user-" + username + "-guesses.txt")
+    if os.path.exists("data/user-" + username + "-score.txt"):
+        os.remove("data/user-" + username + "-score.txt")
 
 # Wrong answer handling
 def store_all_attempts(username):
     attempts = []
-    with open("data/user-" + username + "-guesses.txt", "r") as incorrect_attempts:
-        attempts = incorrect_attempts.readlines()
+    if os.path.exists("data/user-" + username + "-guesses.txt"):
+        with open("data/user-" + username + "-guesses.txt", "r") as incorrect_attempts:
+            attempts = incorrect_attempts.readlines()
     return attempts
 
 def num_of_attempts():
@@ -163,12 +220,6 @@ def index():
 @app.route('/<username>', methods=["GET", "POST"])
 def user(username):
 
-    # Create a User Specific File for Score Keeping etc.
-    open("data/user-" + username + "-score.txt", 'a').close()
-    clear_score(username)
-    open("data/user-" + username + "-guesses.txt", 'a').close()
-    clear_guesses(username)
-
     if request.method =="POST":
         return redirect(url_for('game', username=username))
 
@@ -180,6 +231,17 @@ def user(username):
 @app.route('/<username>/game', methods=["GET", "POST"])
 def game(username):
 
+    if is_overwhelmed():
+        return render_template("toomanyrequests.html"), 429
+    # Jake - Part 3, File Deletion
+    # If files don't exist (due to a delete from the end of a prior session), create them.
+    # Moved from user() so that they're always made right before a new game.
+    if not os.path.exists("data/user-" + username + "-score.txt"):
+        open("data/user-" + username + "-score.txt", 'a').close()
+    if not os.path.exists("data/user-" + username + "-guesses.txt"):
+        open("data/user-" + username + "-guesses.txt", 'a').close()
+
+    
     remaining_attempts = 3
     riddles = riddle()
     riddle_index = 0
@@ -228,8 +290,12 @@ def game(username):
 @app.route('/<username>/gameover', methods=["GET", "POST"])
 def gameover(username):
 
-    clear_guesses(username)
-    clear_score(username)
+    # Jake - bug fix
+    if request.method =="POST":
+        return redirect(url_for('game', username=username))
+    
+    # Jake - Part 3, File Deletion
+    cleanup(username)
 
     rem_attempts = 3
     riddles = riddle()
@@ -237,9 +303,7 @@ def gameover(username):
     answers = riddle_answers()
     score = 0
 
-    if request.method =="POST":
 
-        return redirect(url_for('game', username=username))
 
     return render_template("gameover.html",
                             username=username)
@@ -249,14 +313,17 @@ def gameover(username):
 @app.route('/<username>/congratulations', methods=["GET", "POST"])
 def congrats(username):
 
-    clear_guesses(username)
+    # Jake - Part 3, File Deletion
+    winning_score = end_score(username)
+    cleanup(username)
+
 
     if request.method =="POST":
         usernames_and_scores = get_scores()
         return redirect(url_for('highscores', usernames_and_scores=usernames_and_scores))
 
     return render_template("congratulations.html",
-                            username=username, score=end_score(username))
+                            username=username, score=winning_score)
 
 
 # HIGHSCORE PAGE
@@ -266,6 +333,13 @@ def highscores():
     usernames_and_scores = get_scores()
 
     return render_template("highscores.html", page_title="Highscores", usernames_and_scores=usernames_and_scores)
+
+# Jake - Timeout Page
+@app.route('/timeout', methods=["GET", "POST"])
+def timeout():
+    if request.method == "POST":
+        return redirect(url_for('index'))
+    return render_template("timeout.html")
 
 
 if __name__ == '__main__':
