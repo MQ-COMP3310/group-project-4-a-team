@@ -6,7 +6,7 @@ import time
 from random import randint
 # Import the security functions we just built in run.py
 import run
-from run import is_valid_username, sanitize_input, app, cleanup, is_overwhelmed, register, login
+from run import is_valid_username, sanitise_input, app, cleanup, is_overwhelmed, register, login
 
 # Mikey - Part 3 Task 9:
 class TestInputValidation(unittest.TestCase):
@@ -34,7 +34,7 @@ class TestInputValidation(unittest.TestCase):
     def test_input_sanitization(self):
         # SECURITY TEST: Ensure HTML is safely escaped
         raw_input = "  <script>   "
-        sanitized = sanitize_input(raw_input)
+        sanitized = sanitise_input(raw_input)
         self.assertEqual(sanitized, "&lt;script&gt;")
 
 # Jake - Part 3 Task 9
