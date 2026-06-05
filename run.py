@@ -32,12 +32,7 @@ data = []
 # ==========================================
 
 def is_valid_username(username):
-    """
-    Michael Part 3: SECURITY PRINCIPLE: Input Validation (Allow-listing)
-    Mitigates Path Traversal by ensuring only safe, alphanumeric characters 
-    can be used in the username, which is later used to construct file paths.
-    Enforces a length limit (3 to 15 characters) to prevent buffer/DoS issues.
-    """
+    
     if not username:
         return False
     # Michael Part 3: Regex strictly matches string start to end, 3-15 alphanumeric chars only.
@@ -45,12 +40,7 @@ def is_valid_username(username):
         return False
     return True
 
-def sanitize_input(text):
-    """
-    Michael Part 3: SECURITY PRINCIPLE: Data Sanitization (Output Encoding/Escaping)
-    Strips leading/trailing whitespace and escapes HTML characters 
-    to mitigate Cross-Site Scripting (XSS) when inputs are rendered.
-    """
+def sanitise_input(text):
     if not text:
         return ""
     # Michael Part 3: Strip whitespace and safely escape HTML tags
@@ -259,9 +249,9 @@ def index():
     if request.method == "POST":
         
         
-        # Michael Part 3: SECURE IMPLEMENTATION: Capture, sanitize, and validate input
+        # Michael Part 3: SECURE IMPLEMENTATION: Capture, sanitise, and validate input
         raw_username = request.form['username'].lower()
-        username = sanitize_input(raw_username)
+        username = sanitise_input(raw_username)
         
         # Michael Part 3: Check against our strict allow-list before proceeding
         if not is_valid_username(username):
@@ -349,9 +339,9 @@ def game(username):
 
         riddle_index = int(request.form["riddle_index"])
         
-        # Michael Part 3: SECURE IMPLEMENTATION: Sanitize the riddle answer to prevent XSS
+        # Michael Part 3: SECURE IMPLEMENTATION: sanitise the riddle answer to prevent XSS
         raw_response = request.form["answer"].title()
-        user_response = sanitize_input(raw_response)
+        user_response = sanitise_input(raw_response)
 
         write_to_file("data/user-" + username + "-guesses.txt", user_response + "\n")
 
