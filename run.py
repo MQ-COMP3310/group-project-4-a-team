@@ -9,9 +9,9 @@ import time
 # Needed for encoding to utf8
 reload(sys)
 
-# Jake - Part 3, Idle Timeout
-# Time in Seconds (default = 600):
-IDLE_TIMEOUT = 600
+# # Jake - Part 3, Idle Timeout
+# # Time in Seconds (default = 600):
+# IDLE_TIMEOUT = 600
 
 # Jake - Part 3, Rate Limiting
 MAX_REQUESTS = 10
@@ -55,26 +55,26 @@ def sanitize_input(text):
 
 # Jake - Part 3, Idle Timeout
 # Before any request that isn't on the homepage, highscores or timeout page.
-@app.before_request
-def check_idle():
-    if request.endpoint == 'index' or request.endpoint == 'highscores' or request.endpoint == 'timeout':
-        return
+# @app.before_request
+# def check_idle():
+#     if request.endpoint == 'index' or request.endpoint == 'highscores' or request.endpoint == 'timeout':
+#         return
 
-    name = (request.view_args or {}).get('username')
-    if not name:
-        return
+#     name = (request.view_args or {}).get('username')
+#     if not name:
+#         return
     
-    last_activity_key = "last_activity_" + name
-    last_activity = session.get(last_activity_key)
+#     last_activity_key = "last_activity_" + name
+#     last_activity = session.get(last_activity_key)
 
-    if last_activity:
-        time_since_activity = int(time.time()) - last_activity
-        if time_since_activity > IDLE_TIMEOUT:
-            cleanup(name)
-            session.clear()
-            return redirect(url_for('timeout'))
+#     if last_activity:
+#         time_since_activity = int(time.time()) - last_activity
+#         if time_since_activity > IDLE_TIMEOUT:
+#             cleanup(name)
+#             session.clear()
+#             return redirect(url_for('timeout'))
         
-    session[last_activity_key] = time.time()
+#     session[last_activity_key] = time.time()
 
 # Jake - Part 3, Rate-Limiting helper
 def is_overwhelmed():
@@ -84,10 +84,8 @@ def is_overwhelmed():
     if curr_time - window_start > REQUEST_WINDOW:
         request_count = 0
         window_start = curr_time
-    
-    request_count+=1
 
-    if request_count >= MAX_REQUESTS:
+    if request_count > MAX_REQUESTS:
         return True
     
     return False
@@ -230,7 +228,11 @@ def user(username):
 # GAME PAGE
 @app.route('/<username>/game', methods=["GET", "POST"])
 def game(username):
+    global request_count
 
+    # Jake, Rate-Limiting
+    # Shows the toomanyrequests.html page and informs of a 429
+    request_count+=1
     if is_overwhelmed():
         return render_template("toomanyrequests.html"), 429
     # Jake - Part 3, File Deletion
@@ -334,12 +336,12 @@ def highscores():
 
     return render_template("highscores.html", page_title="Highscores", usernames_and_scores=usernames_and_scores)
 
-# Jake - Timeout Page
-@app.route('/timeout', methods=["GET", "POST"])
-def timeout():
-    if request.method == "POST":
-        return redirect(url_for('index'))
-    return render_template("timeout.html")
+# # Jake - Timeout Page
+# @app.route('/timeout', methods=["GET", "POST"])
+# def timeout():
+#     if request.method == "POST":
+#         return redirect(url_for('index'))
+#     return render_template("timeout.html")
 
 
 if __name__ == '__main__':
