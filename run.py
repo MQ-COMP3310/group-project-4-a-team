@@ -1,15 +1,18 @@
 import os
 import sys
+import bcrypt # Tadhg Part 2: bcrypt is one of the best hashing methods for python
 import re          # Michael Part 3: ADDED FOR SECURITY: Regular Expressions for input validation
 import html        # Michael Part 3: ADDED FOR SECURITY: HTML escaping for XSS prevention
 from importlib import reload
 from flask import Flask, render_template, redirect, request, url_for
+from flask import session #Tadhg Part 2: Uses flasks session to authenticates users session
 
 # Needed for encoding to utf8
 reload(sys)
 
 app = Flask(__name__)
-app.secret_key = 'some_secret'
+#changed secret_key to make it not hardcoded
+app.secret_key = os.urandom(32)
 data = []
 
 
@@ -42,6 +45,62 @@ def sanitize_input(text):
     # Michael Part 3: Strip whitespace and safely escape HTML tags
     return html.escape(text.strip())
 
+
+#Tadhg Part 2: I chose to use a function for the register and login function instead of including them in the Flask endpoints, as that was seemed easier to me
+def register(username, password):
+
+    #SECURITY PRINCIPLE: Strong password policy 
+    #Enforces passwords length requirements 
+    if len(password) < 8: 
+        return False
+    
+    with open("data/users.txt", "r") as file: 
+        for line in file: 
+            stored_username = line.split(",")[0]
+            #Prevents duplicate usernames
+            if stored_username == username: 
+                return False
+    
+    #SECURITY PRINCIPLE: Password confidentiality
+    #Passwords are not stored in plaintext, bcrypt hashing is used to make them unreadable for humans
+    password_hash = bcrypt.hashpw( password.encode('utf-8'),bcrypt.gensalt())
+    with open("data/users.txt", "a") as file: 
+        file.write( f"{username},{password_hash.decode()},user\n")
+
+    return True
+
+def login(username, password):
+    with open("data/users.txt", "r") as file:
+        for line in file:
+            stored_username, stored_hash = line.strip().split(",")
+
+            if stored_username == username :
+                #SECURITY PRINCIPLE: Intergrity-repudation
+                #bcrypt checkpw is constant, meaning there are no timing based attacks
+                if bcrypt.checkpw(
+                    password.encode("utf-8"),
+                    stored_hash.encode("utf-8")
+                ):
+                    #SECURITY PRINCIPLE: Intergrity and Non-repudation
+                    #Authentication status stored in session
+                    session["username"] = username
+                    return True
+
+    return False
+
+
+#helper function to test if user is logged in when visiting protected pages
+def login_required(username):
+
+    # User must be logged in
+    if "username" not in session:
+        return redirect(url_for("index"))
+
+    # User can only access their own pages
+    if session["username"] != username :
+        abort(403)
+
+    return None
 
 def write_to_file(filename, data):
     with open(filename, "a+") as file:
@@ -143,7 +202,7 @@ def get_scores():
 @app.route('/', methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        global username
+        
         
         # Michael Part 3: SECURE IMPLEMENTATION: Capture, sanitize, and validate input
         raw_username = request.form['username'].lower()
@@ -159,10 +218,37 @@ def index():
     return render_template("index.html", page_title="Home")
 
 
+#Tadhg Part 2: adding register and login pages
+@app.route('/register', methods=["GET", "POST"])
+def register_page():
+    username = request.form["username"]
+    password = request.form["password"]
+
+    #Reusing Michael's username validity test to avoid improper inptus
+    if not is_valid_username(username):
+        return "Invalid username", 400
+
+    if register(username, password):
+        return redirect(url_for("login_page"))
+
+    return "Registration failed", 400
+
+@app.route('/login', methods=["GET", "POST"])
+def login_page():
+    username = request.form["username"]
+    password = request.form["password"]
+
+    if login(username, password):
+       return redirect(url_for("user", username=username))
+
+    return redirect(url_for("index"))
+
 # USER WELCOME PAGE
 @app.route('/<username>', methods=["GET", "POST"])
 def user(username):
-
+    auth_check = login_required(username)
+    if auth_check:
+        return auth_check
     # Create a User Specific File for Score Keeping etc.
     open("data/user-" + username + "-score.txt", 'a').close()
     clear_score(username)
@@ -179,7 +265,10 @@ def user(username):
 # GAME PAGE
 @app.route('/<username>/game', methods=["GET", "POST"])
 def game(username):
-
+    auth_check = login_required(username)
+    if auth_check:
+        return auth_check
+    
     remaining_attempts = 3
     riddles = riddle()
     riddle_index = 0
@@ -228,6 +317,10 @@ def game(username):
 @app.route('/<username>/gameover', methods=["GET", "POST"])
 def gameover(username):
 
+    auth_check = login_required(username)
+    if auth_check:
+        return auth_check
+
     clear_guesses(username)
     clear_score(username)
 
@@ -249,6 +342,10 @@ def gameover(username):
 @app.route('/<username>/congratulations', methods=["GET", "POST"])
 def congrats(username):
 
+    auth_check = login_required(username)
+    if auth_check:
+        return auth_check
+
     clear_guesses(username)
 
     if request.method =="POST":
@@ -267,7 +364,15 @@ def highscores():
 
     return render_template("highscores.html", page_title="Highscores", usernames_and_scores=usernames_and_scores)
 
+#SECURITY PRINCIPLE: Integrity 
+# Logout is set as post only to avoid CSRF attacks
+@app.route('/logout', methods=["POST"])
+def logout():
+    #session invalidated on logout
+    session.clear()
+    return redirect(url_for('index'))
 
+    
 if __name__ == '__main__':
     ip = "127.0.0.1"
     port = 8000
