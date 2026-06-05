@@ -3,6 +3,9 @@ import sys
 import bcrypt      # Tadhg Part 2: bcrypt is one of the best hashing methods for python
 import re          # Michael Part 3: ADDED FOR SECURITY: Regular Expressions for input validation
 import html        # Michael Part 3: ADDED FOR SECURITY: HTML escaping for XSS prevention
+from werkzeug.utils import secure_filename # Michael Part 3: ADDED FOR SECURITY: Werkzeug's secure_filename for safe file handling
+import unittest     # Michael Part 3: ADDED FOR SECURITY: Unittest for testing our input validation
+import pytest       # Jake - Part 3, Rate-Limiting: Pytest for testing
 from importlib import reload
 from flask import Flask, render_template, redirect, request, url_for, session, abort
 import time
@@ -32,7 +35,7 @@ data = []
 # ==========================================
 
 def is_valid_username(username):
-    
+
     if not username:
         return False
     # Michael Part 3: Regex strictly matches string start to end, 3-15 alphanumeric chars only.
@@ -288,17 +291,21 @@ def login_page():
 
     return redirect(url_for("index"))
 
-# USER WELCOME PAGE
+
 @app.route('/<username>', methods=["GET", "POST"])
 def user(username):
     auth_check = login_required(username)
     if auth_check:
         return auth_check
+        
+    # Michael Part 3: Defence in Depth - Safe Path Resolution
+    safe_username = secure_filename(username)
+
     # Create a User Specific File for Score Keeping etc.
-    open("data/user-" + username + "-score.txt", 'a').close()
-    clear_score(username)
-    open("data/user-" + username + "-guesses.txt", 'a').close()
-    clear_guesses(username)
+    open("data/user-" + safe_username + "-score.txt", 'a').close()
+    clear_score(safe_username)
+    open("data/user-" + safe_username + "-guesses.txt", 'a').close()
+    clear_guesses(safe_username)
 
     if request.method =="POST":
         return redirect(url_for('game', username=username))
