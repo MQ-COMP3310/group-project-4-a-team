@@ -1,10 +1,10 @@
 import os
 import sys
-import bcrypt # Tadhg Part 2: bcrypt is one of the best hashing methods for python
+import bcrypt      # Tadhg Part 2: bcrypt is one of the best hashing methods for python
 import re          # Michael Part 3: ADDED FOR SECURITY: Regular Expressions for input validation
 import html        # Michael Part 3: ADDED FOR SECURITY: HTML escaping for XSS prevention
 from importlib import reload
-from flask import Flask, render_template, redirect, request, url_for, session
+from flask import Flask, render_template, redirect, request, url_for, session, abort
 import time
 from flask import session #Tadhg Part 2: Uses flasks session to authenticates users session
 
@@ -199,18 +199,18 @@ def store_all_attempts(username):
             attempts = incorrect_attempts.readlines()
     return attempts
 
-def num_of_attempts():
+def num_of_attempts(username):
     attempts = store_all_attempts(username)
     return len(attempts)
 
-def attempts_remaining():
-    remaining_attempts = 3 - num_of_attempts()
+def attempts_remaining(username):
+    remaining_attempts = 3 - num_of_attempts(username)
     return remaining_attempts
 
 
 # Score gets lower the more attempts used
-def add_to_score():
-    round_score = 4 - num_of_attempts()
+def add_to_score(username):
+    round_score = 4 - num_of_attempts(username)
     return round_score
 
 #Adds all the scores from all riddles to make final score
@@ -320,10 +320,10 @@ def user(username):
 # GAME PAGE
 @app.route('/<username>/game', methods=["GET", "POST"])
 def game(username):
+    global request_count
     auth_check = login_required(username)
     if auth_check:
         return auth_check
-        global request_count
 
     # Jake, Rate-Limiting
     # Shows the toomanyrequests.html page and informs of a 429
@@ -360,18 +360,18 @@ def game(username):
             # Correct answer
             if riddle_index < 9:
                 # If riddle number is less than 10 & answer is correct: add score, clear wrong answers file and go to next riddle
-                write_to_file("data/user-" + username + "-score.txt", str(add_to_score()) + "\n")
+                write_to_file("data/user-" + username + "-score.txt", str(add_to_score(username)) + "\n")
                 clear_guesses(username)
                 riddle_index += 1
             else:
                 # If right answer on LAST riddle: add score, submit score to highscore file and redirect to congrats page
-                write_to_file("data/user-" + username + "-score.txt", str(add_to_score()) + "\n")
+                write_to_file("data/user-" + username + "-score.txt", str(add_to_score(username)) + "\n")
                 final_score(username)
                 return redirect(url_for('congrats', username=username, score=end_score(username)))
 
         else:
             # Incorrect answer
-            if attempts_remaining() > 0:
+            if attempts_remaining(username) > 0:
                 # if answer was wrong and more than 0 attempts remaining, reload current riddle
                 riddle_index = riddle_index
             else:
@@ -380,7 +380,7 @@ def game(username):
 
     return render_template("game.html",
                             username=username, riddle_index=riddle_index, riddles=riddles,
-                            answers=answers, attempts=store_all_attempts(username), remaining_attempts=attempts_remaining(), score=end_score(username))
+                            answers=answers, attempts=store_all_attempts(username), remaining_attempts=attempts_remaining(username), score=end_score(username))
 
 
 # GAMEOVER PAGE

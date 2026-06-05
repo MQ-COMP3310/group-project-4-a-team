@@ -6,7 +6,7 @@ import time
 from random import randint
 # Import the security functions we just built in run.py
 import run
-from run import is_valid_username, sanitize_input, app, cleanup, is_overwhelmed
+from run import is_valid_username, sanitize_input, app, cleanup, is_overwhelmed, register, login
 
 # Mikey - Part 3 Task 9:
 class TestInputValidation(unittest.TestCase):
@@ -95,12 +95,18 @@ class TestFileDeletion():
     # If the URL for the gameover route is visited, ensure that cleanup() is called with correct arg.
     # Using a fake cleanup() function, as the successful implementation of cleanup() is not this test's aim. If cleanup() fails, this test will be unaffected.
     def test_gameover_calls_cleanup(self, client):
+        with client.session_transaction() as sess:
+            sess["username"] = "testuser"
+
         with patch("run.cleanup") as mock_cleanup:
             client.get("/testuser/gameover")
             mock_cleanup.assert_called_once_with("testuser")
     
     # If the URL for the congratulations route is visited (and that all riddles have been passed), ensure that cleanup() is called with correct arg.
     def test_congrats_calls_cleanup(self, client):
+        with client.session_transaction() as sess:
+            sess["username"] = "testuser"
+
         with patch("run.cleanup") as mock_cleanup, patch("run.end_score", return_value=10):
             client.get("/testuser/congratulations")
             mock_cleanup.assert_called_once_with("testuser")
@@ -128,8 +134,11 @@ class TestRateLimiting():
 
     # Ensures that requests under the limit (MAX_REQUESTS) are successful.
     def test_accepts_requests_under_limit(self, client):
+        with client.session_transaction() as sess:
+            sess["username"] = "testuser"
+            
         run.request_count = 0
-        run.username = "testuser"
+        
         with patch("run.store_all_attempts", return_value=[]), patch("run.end_score", return_value=0):
             response = client.get("/testuser/game")
             assert response.status_code != 429
@@ -139,15 +148,19 @@ class TestRateLimiting():
         run.request_count = run.MAX_REQUESTS
         run.window_start = time.time()
 
-        with patch("run.os.path.exists", return_value=True):
+        with client.session_transaction() as sess:
+            sess["username"] = "testuser"
+        
+        with patch("run.os.path.exists", return_value=True), patch("run.store_all_attempts", return_value=[]), patch("run.end_score", return_value=0):
             response = client.get("/testuser/game")
             assert response.status_code == 429
     
     # Ensures that the time window expiring resets the request_count, new requests should be accepted.
     def test_window_reset_allows_requests(self, client):
+        with client.session_transaction() as sess:
+            sess["username"] = "testuser"
         run.request_count = run.MAX_REQUESTS
         run.window_start = time.time() - (run.REQUEST_WINDOW + 1)
-        run.username = "testuser"
 
         with patch("run.store_all_attempts", return_value=[]), patch("run.end_score", return_value=0):
             response = client.get("/testuser/game")
@@ -157,7 +170,7 @@ if __name__ == '__main__':
     unittest.main()
 
 
-def is_hashed():
+def test_is_hashed():
     register("test", "Password123!")
     with open("data/users.txt", "r") as file: 
         contents = file.read()
