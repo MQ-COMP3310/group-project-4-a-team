@@ -1,15 +1,29 @@
 import os
 import sys
+import bcrypt      # Tadhg Part 2: bcrypt is one of the best hashing methods for python
 import re          # Michael Part 3: ADDED FOR SECURITY: Regular Expressions for input validation
 import html        # Michael Part 3: ADDED FOR SECURITY: HTML escaping for XSS prevention
 from importlib import reload
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, session, abort
+import time
+from flask import session #Tadhg Part 2: Uses flasks session to authenticates users session
 
 # Needed for encoding to utf8
 reload(sys)
 
+# # Jake - Part 3, Idle Timeout
+# # Time in Seconds (default = 600):
+# IDLE_TIMEOUT = 600
+
+# Jake - Part 3, Rate Limiting
+MAX_REQUESTS = 10
+REQUEST_WINDOW = 60
+window_start = time.time()
+request_count = 0
+
 app = Flask(__name__)
-app.secret_key = 'some_secret'
+#changed secret_key to make it not hardcoded
+app.secret_key = os.urandom(32)
 data = []
 
 
@@ -42,6 +56,99 @@ def sanitize_input(text):
     # Michael Part 3: Strip whitespace and safely escape HTML tags
     return html.escape(text.strip())
 
+# Jake - Part 3, Idle Timeout
+# Before any request that isn't on the homepage, highscores or timeout page.
+# @app.before_request
+# def check_idle():
+#     if request.endpoint == 'index' or request.endpoint == 'highscores' or request.endpoint == 'timeout':
+#         return
+
+#     name = (request.view_args or {}).get('username')
+#     if not name:
+#         return
+    
+#     last_activity_key = "last_activity_" + name
+#     last_activity = session.get(last_activity_key)
+
+#     if last_activity:
+#         time_since_activity = int(time.time()) - last_activity
+#         if time_since_activity > IDLE_TIMEOUT:
+#             cleanup(name)
+#             session.clear()
+#             return redirect(url_for('timeout'))
+        
+#     session[last_activity_key] = time.time()
+
+# Jake - Part 3, Rate-Limiting helper
+def is_overwhelmed():
+    global request_count, window_start
+
+    curr_time = time.time()
+    if curr_time - window_start > REQUEST_WINDOW:
+        request_count = 0
+        window_start = curr_time
+
+    if request_count > MAX_REQUESTS:
+        return True
+    
+    return False
+    
+
+#Tadhg Part 2: I chose to use a function for the register and login function instead of including them in the Flask endpoints, as that was seemed easier to me
+def register(username, password):
+
+    #SECURITY PRINCIPLE: Strong password policy 
+    #Enforces passwords length requirements 
+    if len(password) < 8: 
+        return False
+    
+    with open("data/users.txt", "r") as file: 
+        for line in file: 
+            stored_username = line.split(",")[0]
+            #Prevents duplicate usernames
+            if stored_username == username: 
+                return False
+    
+    #SECURITY PRINCIPLE: Password confidentiality
+    #Passwords are not stored in plaintext, bcrypt hashing is used to make them unreadable for humans
+    password_hash = bcrypt.hashpw( password.encode('utf-8'),bcrypt.gensalt())
+    with open("data/users.txt", "a") as file: 
+        file.write( f"{username},{password_hash.decode()},user\n")
+
+    return True
+
+def login(username, password):
+    with open("data/users.txt", "r") as file:
+        for line in file:
+            stored_username, stored_hash = line.strip().split(",")
+
+            if stored_username == username :
+                #SECURITY PRINCIPLE: Intergrity-repudation
+                #bcrypt checkpw is constant, meaning there are no timing based attacks
+                if bcrypt.checkpw(
+                    password.encode("utf-8"),
+                    stored_hash.encode("utf-8")
+                ):
+                    #SECURITY PRINCIPLE: Intergrity and Non-repudation
+                    #Authentication status stored in session
+                    session["username"] = username
+                    return True
+
+    return False
+
+
+#helper function to test if user is logged in when visiting protected pages
+def login_required(username):
+
+    # User must be logged in
+    if "username" not in session:
+        return redirect(url_for("index"))
+
+    # User can only access their own pages
+    if session["username"] != username :
+        abort(403)
+
+    return None
 
 def write_to_file(filename, data):
     with open(filename, "a+") as file:
@@ -77,26 +184,33 @@ def clear_score(username):
     with open("data/user-" + username + "-score.txt", "w"):
         return
 
+# Jake - Part 3, File Deletion
+def cleanup(username):
+    if os.path.exists("data/user-" + username + "-guesses.txt"):
+        os.remove("data/user-" + username + "-guesses.txt")
+    if os.path.exists("data/user-" + username + "-score.txt"):
+        os.remove("data/user-" + username + "-score.txt")
 
 # Wrong answer handling
 def store_all_attempts(username):
     attempts = []
-    with open("data/user-" + username + "-guesses.txt", "r") as incorrect_attempts:
-        attempts = incorrect_attempts.readlines()
+    if os.path.exists("data/user-" + username + "-guesses.txt"):
+        with open("data/user-" + username + "-guesses.txt", "r") as incorrect_attempts:
+            attempts = incorrect_attempts.readlines()
     return attempts
 
-def num_of_attempts():
+def num_of_attempts(username):
     attempts = store_all_attempts(username)
     return len(attempts)
 
-def attempts_remaining():
-    remaining_attempts = 3 - num_of_attempts()
+def attempts_remaining(username):
+    remaining_attempts = 3 - num_of_attempts(username)
     return remaining_attempts
 
 
 # Score gets lower the more attempts used
-def add_to_score():
-    round_score = 4 - num_of_attempts()
+def add_to_score(username):
+    round_score = 4 - num_of_attempts(username)
     return round_score
 
 #Adds all the scores from all riddles to make final score
@@ -143,7 +257,7 @@ def get_scores():
 @app.route('/', methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        global username
+        
         
         # Michael Part 3: SECURE IMPLEMENTATION: Capture, sanitize, and validate input
         raw_username = request.form['username'].lower()
@@ -159,10 +273,37 @@ def index():
     return render_template("index.html", page_title="Home")
 
 
+#Tadhg Part 2: adding register and login pages
+@app.route('/register', methods=["GET", "POST"])
+def register_page():
+    username = request.form["username"]
+    password = request.form["password"]
+
+    #Reusing Michael's username validity test to avoid improper inptus
+    if not is_valid_username(username):
+        return "Invalid username", 400
+
+    if register(username, password):
+        return redirect(url_for("login_page"))
+
+    return "Registration failed", 400
+
+@app.route('/login', methods=["GET", "POST"])
+def login_page():
+    username = request.form["username"]
+    password = request.form["password"]
+
+    if login(username, password):
+       return redirect(url_for("user", username=username))
+
+    return redirect(url_for("index"))
+
 # USER WELCOME PAGE
 @app.route('/<username>', methods=["GET", "POST"])
 def user(username):
-
+    auth_check = login_required(username)
+    if auth_check:
+        return auth_check
     # Create a User Specific File for Score Keeping etc.
     open("data/user-" + username + "-score.txt", 'a').close()
     clear_score(username)
@@ -179,7 +320,25 @@ def user(username):
 # GAME PAGE
 @app.route('/<username>/game', methods=["GET", "POST"])
 def game(username):
+    global request_count
+    auth_check = login_required(username)
+    if auth_check:
+        return auth_check
 
+    # Jake, Rate-Limiting
+    # Shows the toomanyrequests.html page and informs of a 429
+    request_count+=1
+    if is_overwhelmed():
+        return render_template("toomanyrequests.html"), 429
+    # Jake - Part 3, File Deletion
+    # If files don't exist (due to a delete from the end of a prior session), create them.
+    # Moved from user() so that they're always made right before a new game.
+    if not os.path.exists("data/user-" + username + "-score.txt"):
+        open("data/user-" + username + "-score.txt", 'a').close()
+    if not os.path.exists("data/user-" + username + "-guesses.txt"):
+        open("data/user-" + username + "-guesses.txt", 'a').close()
+
+    
     remaining_attempts = 3
     riddles = riddle()
     riddle_index = 0
@@ -201,18 +360,18 @@ def game(username):
             # Correct answer
             if riddle_index < 9:
                 # If riddle number is less than 10 & answer is correct: add score, clear wrong answers file and go to next riddle
-                write_to_file("data/user-" + username + "-score.txt", str(add_to_score()) + "\n")
+                write_to_file("data/user-" + username + "-score.txt", str(add_to_score(username)) + "\n")
                 clear_guesses(username)
                 riddle_index += 1
             else:
                 # If right answer on LAST riddle: add score, submit score to highscore file and redirect to congrats page
-                write_to_file("data/user-" + username + "-score.txt", str(add_to_score()) + "\n")
+                write_to_file("data/user-" + username + "-score.txt", str(add_to_score(username)) + "\n")
                 final_score(username)
                 return redirect(url_for('congrats', username=username, score=end_score(username)))
 
         else:
             # Incorrect answer
-            if attempts_remaining() > 0:
+            if attempts_remaining(username) > 0:
                 # if answer was wrong and more than 0 attempts remaining, reload current riddle
                 riddle_index = riddle_index
             else:
@@ -221,15 +380,23 @@ def game(username):
 
     return render_template("game.html",
                             username=username, riddle_index=riddle_index, riddles=riddles,
-                            answers=answers, attempts=store_all_attempts(username), remaining_attempts=attempts_remaining(), score=end_score(username))
+                            answers=answers, attempts=store_all_attempts(username), remaining_attempts=attempts_remaining(username), score=end_score(username))
 
 
 # GAMEOVER PAGE
 @app.route('/<username>/gameover', methods=["GET", "POST"])
 def gameover(username):
 
-    clear_guesses(username)
-    clear_score(username)
+    auth_check = login_required(username)
+    if auth_check:
+        return auth_check
+
+    # Jake - bug fix
+    if request.method =="POST":
+        return redirect(url_for('game', username=username))
+    
+    # Jake - Part 3, File Deletion
+    cleanup(username)
 
     rem_attempts = 3
     riddles = riddle()
@@ -237,9 +404,7 @@ def gameover(username):
     answers = riddle_answers()
     score = 0
 
-    if request.method =="POST":
 
-        return redirect(url_for('game', username=username))
 
     return render_template("gameover.html",
                             username=username)
@@ -249,14 +414,21 @@ def gameover(username):
 @app.route('/<username>/congratulations', methods=["GET", "POST"])
 def congrats(username):
 
-    clear_guesses(username)
+    auth_check = login_required(username)
+    if auth_check:
+        return auth_check
+
+    # Jake - Part 3, File Deletion
+    winning_score = end_score(username)
+    cleanup(username)
+
 
     if request.method =="POST":
         usernames_and_scores = get_scores()
         return redirect(url_for('highscores', usernames_and_scores=usernames_and_scores))
 
     return render_template("congratulations.html",
-                            username=username, score=end_score(username))
+                            username=username, score=winning_score)
 
 
 # HIGHSCORE PAGE
@@ -266,6 +438,21 @@ def highscores():
     usernames_and_scores = get_scores()
 
     return render_template("highscores.html", page_title="Highscores", usernames_and_scores=usernames_and_scores)
+
+#SECURITY PRINCIPLE: Integrity 
+# Logout is set as post only to avoid CSRF attacks
+@app.route('/logout', methods=["POST"])
+def logout():
+    #session invalidated on logout
+    session.clear()
+    return redirect(url_for('index'))
+
+    # # Jake - Timeout Page
+# @app.route('/timeout', methods=["GET", "POST"])
+# def timeout():
+#     if request.method == "POST":
+#         return redirect(url_for('index'))
+#     return render_template("timeout.html")
 
 
 if __name__ == '__main__':
