@@ -32,3 +32,27 @@ class TestInputValidation(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+def is_hashed():
+    register("test", "Password123!")
+    with open("data/users.txt", "r") as file: 
+        contents = file.read()
+    assert "Password123!" not in contents
+
+#tests if the stored password is hashed
+
+def test_invalid_password_rejected(): 
+    result = login( "test", "incorrectPassword" )   
+    assert result is False
+
+#tests than an invalid password cannot login
+
+def test_user_cannot_access_other_account(client):
+    with client.session_transaction() as session: 
+        session["username"] = "test" 
+        response = client.get("/different_user")
+        assert response.status_code == 403
+
+
+#tests if a user cannot access another user's session
