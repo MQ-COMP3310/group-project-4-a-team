@@ -152,62 +152,6 @@ def login_required(username):
 
     return None
 
-#Tadhg Part 2: I chose to use a function for the register and login function instead of including them in the Flask endpoints, as that was seemed easier to me
-def register(username, password):
-
-    #SECURITY PRINCIPLE: Strong password policy 
-    #Enforces passwords length requirements 
-    if len(password) < 8: 
-        return False
-    
-    with open("data/users.txt", "r") as file: 
-        for line in file: 
-            stored_username = line.split(",")[0]
-            #Prevents duplicate usernames
-            if stored_username == username: 
-                return False
-    
-    #SECURITY PRINCIPLE: Password confidentiality
-    #Passwords are not stored in plaintext, bcrypt hashing is used to make them unreadable for humans
-    password_hash = bcrypt.hashpw( password.encode('utf-8'),bcrypt.gensalt())
-    with open("data/users.txt", "a") as file: 
-        file.write( f"{username},{password_hash.decode()},user\n")
-
-    return True
-
-def login(username, password):
-    with open("data/users.txt", "r") as file:
-        for line in file:
-            stored_username, stored_hash = line.strip().split(",")
-
-            if stored_username == username :
-                #SECURITY PRINCIPLE: Intergrity-repudation
-                #bcrypt checkpw is constant, meaning there are no timing based attacks
-                if bcrypt.checkpw(
-                    password.encode("utf-8"),
-                    stored_hash.encode("utf-8")
-                ):
-                    #SECURITY PRINCIPLE: Intergrity and Non-repudation
-                    #Authentication status stored in session
-                    session["username"] = username
-                    return True
-
-    return False
-
-
-#helper function to test if user is logged in when visiting protected pages
-def login_required(username):
-
-    # User must be logged in
-    if "username" not in session:
-        return redirect(url_for("index"))
-
-    # User can only access their own pages
-    if session["username"] != username :
-        abort(403)
-
-    return None
-
 def write_to_file(filename, data):
     with open(filename, "a+") as file:
         file.writelines(data)
